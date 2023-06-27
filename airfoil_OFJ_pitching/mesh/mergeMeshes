@@ -1,0 +1,12 @@
+#!/bin/sh
+
+rm -rf final
+mkdir final
+cp -rv nonRotating/constant final/
+cp -rv nonRotating/system final/
+mergeMeshes final rotating -overwrite
+
+
+cp -r ../system/createPatchDict.final final/system/createPatchDict
+cd final
+createPatch -overwrite

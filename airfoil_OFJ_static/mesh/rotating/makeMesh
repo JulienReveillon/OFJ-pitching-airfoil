@@ -1,0 +1,7 @@
+#!/bin/sh
+
+blockMesh
+transformPoints -translate '(-0.3 0 0)'
+transformPoints -rotate '( (0 0 1) (0.173648 0 0.984808) )'
+transformPoints -translate '(0.3 0 0)'
+topoSet

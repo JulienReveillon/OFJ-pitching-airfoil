@@ -1,0 +1,25 @@
+#!/bin/sh
+cd "${0%/*}" || exit                                # Run from this directory
+. ${WM_PROJECT_DIR:?}/bin/tools/RunFunctions        # Tutorial run functions
+#------------------------------------------------------------------------------
+
+restore0Dir
+
+######## Preprocessing : meshing
+echo "Running makeMesh script"
+./makeMesh > log.makeMesh
+
+######## Processing : run of steady-state simulation in parallel
+runApplication decomposePar
+
+runParallel $(getApplication)
+
+runApplication reconstructPar
+
+######## Postprocessing
+
+$(getApplication) -postProcess -func yPlus
+
+runApplication postProcess -func sample -latestTime
+
+#------------------------------------------------------------------------------
