@@ -1,0 +1,27 @@
+#!/bin/sh
+cd "${0%/*}" || exit                                # Run from this directory
+. ${WM_PROJECT_DIR:?}/bin/tools/RunFunctions        # Tutorial run functions
+#------------------------------------------------------------------------------
+
+
+######## Preprocessing : meshing
+echo "Running makeMesh script"
+./makeMesh > log.makeMesh
+
+######### copy 0 folder from static_RANS
+python3 script_copyFolder0.py
+
+######## Processing : run of steady-state simulation in parallel
+runApplication decomposePar
+
+runParallel pimpleFoam
+
+runApplication reconstructPar
+
+######## Postprocessing
+
+pimpleFoam -postProcess -func yPlus
+
+runApplication postProcess -func sample -latestTime
+
+#------------------------------------------------------------------------------

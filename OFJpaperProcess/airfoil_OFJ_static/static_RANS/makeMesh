@@ -1,0 +1,11 @@
+#!/bin/sh
+
+cd mesh/rotating
+./makeMesh
+cd ../nonRotating
+blockMesh
+cd ..
+./mergeMeshes
+cd .. 
+cp -r mesh/final/constant/polyMesh  constant
+
